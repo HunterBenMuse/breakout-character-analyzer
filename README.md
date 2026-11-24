@@ -1,10 +1,26 @@
 # Breakout Character Analyzer
 
-**One question, answered honestly for any ticker: when this instrument breaks above a meaningful prior high, what usually happens next — and how much should you trust that answer?**
+**QQQ's major breakouts succeeded only 24.2% ± 6.2 of the time — 182 events, 1999–2026. Failure is the majority outcome. What does *your* ticker's own history say?**
 
-Most published breakout statistics are pooled across thousands of stocks: one success rate for a pattern, as if every instrument behaved the same. They don't. This tool measures breakout behaviour **per instrument**: it finds the breakouts in one ticker's own history, classifies what price did after each one, and reports the statistics **with their sample sizes and margins of error attached**. A rate without its *n* and its ± is not a result, and this tool never prints one.
+Most breakout statistics you can find are pooled across thousands of stocks, as if every instrument behaved the same. They don't. This tool measures breakout behaviour **per instrument**: it finds every breakout in one ticker's own history, classifies what price did next, and reports the success rate **with its sample size and margin of error attached** — and where the history is too thin to support a rate, it labels the cell **TREND ONLY** instead of dressing it up as one.
 
-Pure Python 3, standard library only. No API key. Bring your own OHLCV data as a CSV, or fetch a ticker from Yahoo Finance's free chart API.
+![QQQ breakout success by layer, with margins](chart-success-by-layer.png)
+
+## What you get
+
+- **Per-ticker character, not pooled averages** — one instrument's own breakout record, measured on its own history.
+- **Five layers × two levels** — hourly, daily, weekly, monthly, yearly; major and small prior-high points.
+- **Every rate ships with its credibility** — the sample size *n*, the achieved ± margin at 95% confidence, and a grade: **TRUSTWORTHY** (≤ ±5) · **BARELY USABLE** (≤ ±10) · **TREND ONLY** (> ±10 — a direction to respect, never a rate to trade on).
+- **The full event record** — every breakout found, with its candle grade, walk classification (runs straight up / shallow pullback / mixed / false), pullback depth, volume ratios, bars to failure, and honesty flags for what the data cannot support.
+- **No dependencies, no API key** — pure Python 3, standard library only. Bring your own OHLCV as a CSV, or fetch a ticker from Yahoo Finance's free chart API.
+
+**Validated, not just written:** this release reproduces its reference study (QQQ, full history, all 20 layer × level cells) exactly — event counts, success rates, and achieved margins. The underlying machinery was additionally re-derived by an independent implementation sharing no code (1,124 events, zero discrepancies) and checked against a hand-graded regression set, pullback depths to the third decimal.
+
+## Who this is for
+
+You trade or research breakouts on **one instrument you know well** — and the statistics you've found never described it, because they averaged it together with thousands of stocks it behaves nothing like. This tool answers the question those statistics can't: *when this instrument breaks above a meaningful prior high, what usually happens next — and how much should you trust that answer?* If the honest answer for some layer is "there isn't enough history to know," the tool tells you that too. That refusal is the product.
+
+**The honesty rules are the point.** A rate without its *n* and its ± is not a result, and this tool never prints one. This tool measures history. It does not predict, it does not place trades, and **it is not financial advice**.
 
 ---
 
